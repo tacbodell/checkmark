@@ -40,7 +40,7 @@
 
       <!-- AREA FOR TODO INFO -->
       <div class="p-4 w-full">
-        <div class="md:flex md:justify-between md:w-full">
+        <div class="flex flex-col items-center md:flex-row md:justify-between md:w-full">
           <h2 class="text-4xl font-extrabold" id="todoTitle"></h2>
           <img class="max-h-48 lg:max-h-96" src="" id="todoImage" alt="">
         </div>
@@ -68,12 +68,19 @@
     <!-- Open the modal using ID.showModal() method -->
     <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box">
-        <h3 class="font-bold text-lg">Hello!</h3>
+        <h3 class="font-bold text-lg">Please enter some info about your task:</h3>
+        <form action="/todos/createTodo" method='POST' id="newtask">
+          <input type="text" placeholder="Title" class="input input-bordered w-full max-w-xs mt-1" name="title"/>
+          <input type="text" placeholder="Image URL" class="input input-bordered w-full max-w-xs mt-1" name="imageUrl"/>
+          <textarea placeholder="Task Description" class="textarea textarea-bordered textarea-xs w-full max-w-xs mt-1" name="description"></textarea>
+          <input type="datetime-local" class="mt-1" name="dueDate">
+        </form>
         <p class="py-4">Press ESC key or click the button below to close</p>
         <div class="modal-action">
           <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
-            <button class="btn">Close</button>
+            <button class="btn">Cancel</button>
+            <button class="btn btn-primary" type="submit" form="newtask" value="Submit">Confirm</button>
           </form>
         </div>
       </div>
