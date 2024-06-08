@@ -6,30 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="css/todos.css">
 </head>
 <body>
-    <h1>Todos</h1>
-    <ul>
-    <% todos.forEach( el => { %>
-            <li class='todoItem' data-id='<%=el._id%>'>
-                <span class='<%= el.completed === true ? 'completed' : 'not'%>'><%= el.title %></span>
-                <span class='del'> Delete </span>
+
+    <div class="drawer lg:drawer-open">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col items-center justify-start">
+      <!-- Page content here -->
+
+      <!-- Navbar -->
+      <div class="navbar bg-neutral text-neutral-content">
+        <div class="flex-1">
+          <a class="btn btn-ghost text-xl">Checkmark</a>
+        </div>
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <li><label for="my-drawer-2" class="drawer-button lg:hidden">Open Task List</label></li>
+            <li>
+              <details>
+                <summary>
+                  .....
+                </summary>
+                <ul class="p-1 bg-neutral text-neutral-content rounded-t-none">
+                  <li><a>Settings</a></li>
+                  <li><a href="/logout">Logout</a></li>
+                </ul>
+              </details>
             </li>
-    <% }) %>    
-    </ul>
+          </ul>
+        </div>
+      </div>
 
-    <h2><%= user.userName %> has <%= left %> things left to do.</h2>
+      <!-- AREA FOR TODO INFO -->
+      <div class="p-4 w-full">
+        <div class="md:flex md:justify-between md:w-full">
+          <h2 class="text-4xl font-extrabold" id="todoTitle"></h2>
+          <img class="max-h-48 lg:max-h-96" src="" id="todoImage" alt="">
+        </div>
+        <p class="mb-3 text-center" id="todoDescription"></p>
+        <p class="mb-3 text-center" id="todoDueDate"></p>
+      </div>
+    
+    </div> 
+    <div class="drawer-side">
+      <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label> 
+      <ul class="menu p-4 w-60 min-h-full bg-base-200 text-base-content">
+        <!-- Sidebar content here -->
+        <label for="my-drawer-2" class="btn btn-secondary drawer-button lg:hidden">Close Task List</label>
+        <button class="btn btn-primary mt-1" onclick="my_modal_5.showModal()">New Task</button>
+        <% todos.forEach( el => { %>
+          <% if (!el.deleted) { %>
+            <label for="my-drawer-2" class="drawer-button mt-1"><li class="selectTodo" data-id="<%= el._id %>" data-title="<%= el.title %>" data-description="<%= el.description %>" data-duedate="<%= el.dueDate %>" data-completed="<%= el.completed %>" data-imageurl="<%= el.imageUrl %>"><a><%= el.title %>, <%= el.dueDate %></a></li></label>
+          <% } %>
+        <% }) %>
+      </ul>
+    
+    </div>
+    </div>
 
-    <form action="/todos/createTodo" method='POST'>
-        <input type="text" placeholder="Enter Todo Title" name='title'>
-        <input type="text" placeholder="Enter Todo Description" name='description'>
-        <input type="text" placeholder="Enter Image Url" name='imageUrl'>
-        <input type="datetime-local" placeholder="Enter Due date" name='dueDate'>
-        <button class="btn btn-primary">Primary</button>
-    </form>
+    <!-- Open the modal using ID.showModal() method -->
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Press ESC key or click the button below to close</p>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
-    <a href="/logout">Logout</a>
-
-    <script src="js/main.js"></script>
+    <script src="js/todos.js"></script>
 </body>
 </html>

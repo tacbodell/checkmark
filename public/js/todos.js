@@ -1,6 +1,11 @@
 const deleteBtn = document.querySelectorAll('.del')
 const todoItem = document.querySelectorAll('span.not')
 const todoComplete = document.querySelectorAll('span.completed')
+const selectTodoButton = document.querySelectorAll('.selectTodo')
+const todoAreaImage = document.getElementById('todoImage')
+const todoAreaTitle = document.getElementById('todoTitle')
+const todoAreaDescription = document.getElementById('todoDescription')
+const todoAreaDueDate = document.getElementById('todoDueDate')
 
 Array.from(deleteBtn).forEach((el)=>{
     el.addEventListener('click', deleteTodo)
@@ -13,6 +18,17 @@ Array.from(todoItem).forEach((el)=>{
 Array.from(todoComplete).forEach((el)=>{
     el.addEventListener('click', markIncomplete)
 })
+
+Array.from(selectTodoButton).forEach((el)=>{
+    el.addEventListener('click', selectTodo)
+})
+
+function selectTodo(){
+    todoAreaImage.src = this.dataset.imageurl
+    todoAreaTitle.innerText = this.dataset.title
+    todoAreaDescription.innerText = this.dataset.description
+    todoAreaDueDate.innerText = this.dataset.duedate
+}
 
 async function deleteTodo(){
     const todoId = this.parentNode.dataset.id
