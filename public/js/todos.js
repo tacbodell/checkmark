@@ -1,43 +1,58 @@
-const deleteBtn = document.querySelectorAll('.del')
-const todoItem = document.querySelectorAll('span.not')
-const todoComplete = document.querySelectorAll('span.completed')
+// selectors
 const selectTodoButton = document.querySelectorAll('.selectTodo')
 const todoAreaImage = document.getElementById('todoImage')
 const todoAreaTitle = document.getElementById('todoTitle')
 const todoAreaDescription = document.getElementById('todoDescription')
 const todoAreaDueDate = document.getElementById('todoDueDate')
+const todoCompleteButton = document.getElementById('todoCompleteButton')
+const todoIncompleteButton = document.getElementById('todoIncompleteButton')
+const todoDeleteButton = document.getElementById('todoDeleteButton')
 
-Array.from(deleteBtn).forEach((el)=>{
-    el.addEventListener('click', deleteTodo)
-})
-
-Array.from(todoItem).forEach((el)=>{
-    el.addEventListener('click', markComplete)
-})
-
-Array.from(todoComplete).forEach((el)=>{
-    el.addEventListener('click', markIncomplete)
-})
+// event listeners
+todoCompleteButton.addEventListener('click', markComplete)
+todoIncompleteButton.addEventListener('click', markIncomplete)
+todoDeleteButton.addEventListener('click', deleteTask)
 
 Array.from(selectTodoButton).forEach((el)=>{
     el.addEventListener('click', selectTodo)
 })
 
+//update styling of page
+Array.from(selectTodoButton).forEach(el => {
+    if (el.dataset.completed === "true") {
+        el.classList.add("line-through")
+        el.classList.add("text-slate-500")
+    }
+})
+
+// updates task info area upon task selection
 function selectTodo(){
+    todoAreaTitle.dataset.taskid = this.dataset.id
+
     todoAreaImage.src = this.dataset.imageurl
     todoAreaTitle.innerText = this.dataset.title
     todoAreaDescription.innerText = this.dataset.description
     todoAreaDueDate.innerText = this.dataset.duedate
+
+    todoDeleteButton.style.display = "inline-block"
+    if (this.dataset.completed === "true") {
+        todoCompleteButton.style.display = "none"
+        todoIncompleteButton.style.display = "inline-block"
+    } else {
+        todoCompleteButton.style.display = "inline-block"
+        todoIncompleteButton.style.display = "none"
+    }
 }
 
-async function deleteTodo(){
-    const todoId = this.parentNode.dataset.id
+// deletes the selected task
+async function deleteTask(){
+    const taskId = todoAreaTitle.dataset.taskid
     try{
         const response = await fetch('todos/deleteTodo', {
             method: 'delete',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                'todoIdFromJSFile': todoId
+                'taskId': taskId
             })
         })
         const data = await response.json()
@@ -48,14 +63,16 @@ async function deleteTodo(){
     }
 }
 
+// marks the selected task as complete
 async function markComplete(){
-    const todoId = this.parentNode.dataset.id
+    const taskId = todoAreaTitle.dataset.taskid
+    
     try{
         const response = await fetch('todos/markComplete', {
             method: 'put',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                'todoIdFromJSFile': todoId
+                'taskId': taskId
             })
         })
         const data = await response.json()
@@ -66,14 +83,15 @@ async function markComplete(){
     }
 }
 
+// marks the selected task as incomplete
 async function markIncomplete(){
-    const todoId = this.parentNode.dataset.id
+    const taskId = todoAreaTitle.dataset.taskid
     try{
         const response = await fetch('todos/markIncomplete', {
             method: 'put',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
-                'todoIdFromJSFile': todoId
+                'taskId': taskId
             })
         })
         const data = await response.json()

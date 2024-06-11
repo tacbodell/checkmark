@@ -2,3 +2,6 @@
     border-radius: 1rem;
     margin-top: 1rem;
 }
+#todoCompleteButton, #todoIncompleteButton, #todoDeleteButton {
+    display: none;
+}
