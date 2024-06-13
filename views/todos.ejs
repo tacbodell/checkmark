@@ -60,7 +60,7 @@
         <button class="btn btn-primary mt-1" onclick="my_modal_5.showModal()">New Task</button>
         <% todos.forEach( el => { %>
           <% if (!el.deleted) { %>
-            <label for="my-drawer-2" class="drawer-button mt-1"><li class="selectTodo" data-id="<%= el._id %>" data-title="<%= el.title %>" data-description="<%= el.description %>" data-duedate="<%= el.dueDate %>" data-completed="<%= el.completed %>" data-imageurl="<%= el.imageUrl %>"><a><%= el.title %>, <%= el.dueDate %></a></li></label>
+            <label for="my-drawer-2" class="drawer-button mt-1"><li class="selectTodo" data-id="<%= el._id %>" data-title="<%= el.title %>" data-description="<%= el.description %>" data-duedate="<%= el.dueDate %>" data-completed="<%= el.completed %>" data-imageurl="<%= el.imageUrl %>"><a><%= el.title %>, <%= el.dueDate.toLocaleString() %></a></li></label>
           <% } %>
         <% }) %>
       </ul>

@@ -32,7 +32,7 @@ function selectTodo(){
     todoAreaImage.src = this.dataset.imageurl
     todoAreaTitle.innerText = this.dataset.title
     todoAreaDescription.innerText = this.dataset.description
-    todoAreaDueDate.innerText = this.dataset.duedate
+    todoAreaDueDate.innerText = new Date(this.dataset.duedate).toLocaleString()
 
     todoDeleteButton.style.display = "inline-block"
     if (this.dataset.completed === "true") {
