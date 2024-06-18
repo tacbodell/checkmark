@@ -12,7 +12,7 @@ module.exports = {
             todoItems.sort((a,b) => {
                 if (!a.dueDate) return -1
                 if (!b.dueDate) return 1
-                a.dueDate.getTime() - b.dueDate.getTime()
+                else return a.dueDate - b.dueDate
             })
             res.render('todos.ejs', {todos: todoItems, left: itemsLeft, user: req.user})
         }catch(err){
