@@ -9,7 +9,11 @@ module.exports = {
             const itemsLeft = await Todo.countDocuments({userId:req.user.id,completed: false})
 
             // sort items by due date
-            todoItems.sort((a,b) => a.dueDate.getTime() - b.dueDate.getTime())
+            todoItems.sort((a,b) => {
+                if (!a.dueDate) return -1
+                if (!b.dueDate) return 1
+                a.dueDate.getTime() - b.dueDate.getTime()
+            })
             res.render('todos.ejs', {todos: todoItems, left: itemsLeft, user: req.user})
         }catch(err){
             console.log(err)
